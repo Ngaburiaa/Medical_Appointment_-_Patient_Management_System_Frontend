@@ -1,9 +1,0 @@
-Implement patient management for doctors where they can see the patient they have served,
-their prescrptions,they can be able to write a new prescription and view their profile
-
-Implement prescrption page for doctors
-
-upload images using cloudinary
-
-
-
