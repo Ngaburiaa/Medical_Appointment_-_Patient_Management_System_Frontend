@@ -9,6 +9,7 @@ import { doctorApi } from '../Features/api/doctorAPI';
 import { prescriptionApi } from '../Features/api/prescriptionAPI';
 import { prescriptionItemApi } from '../Features/api/prescriptionItemAPI';
 import { complaintApi } from '../Features/api/complaintApi';
+import { paymentApi } from '../Features/api/paymentAPI';
 
 
 const authPersistConfig = {
@@ -34,6 +35,7 @@ export const store = configureStore({
     [prescriptionApi.reducerPath]:prescriptionApi.reducer,
     [prescriptionItemApi.reducerPath]:prescriptionItemApi.reducer,
     [complaintApi.reducerPath]:complaintApi.reducer,
+    [paymentApi.reducerPath]:paymentApi.reducer,
      auth: persistedAuthReducer,
      docAuth:persistedDocAuthReducer,
     
@@ -42,14 +44,15 @@ export const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
+      immutableCheck: false,
       serializableCheck: false, // To avoid serialization errors with redux-persist
     }).concat(userApi.middleware,
       doctorApi.middleware,
       appointmentApi.middleware,
       prescriptionItemApi.middleware,
       prescriptionApi.middleware,
-      complaintApi.middleware
-    
+      complaintApi.middleware,
+      paymentApi.middleware
     ), 
       
 });

@@ -15,18 +15,14 @@ import { format } from "date-fns";
 import { toast } from "sonner";
 import Swal from "sweetalert2";
 import { complaintApi } from "../../Features/api/complaintApi";
-import{userApi} from '../../Features/api/userAPI'
-import type { RootState } from '../../App/store';
-import { useSelector } from "react-redux";
-
 
 interface TicketCardProps {
   ticket: {
-    ticketId: number;
+    complaintId: number;
     createdAt: string;
     subject: string;
     description: string;
-    status: 'Open' | 'Resolved';
+    status: 'Open' | 'Resolved'| "In Progress" | "Closed";
     reply?: string;
     user?: {
       firstName: string;
@@ -57,7 +53,7 @@ export const TicketCard = ({ ticket, onClick }: TicketCardProps) => {
     if (confirm.isConfirmed) {
       const toastId = toast.loading("Deleting...");
       try {
-        await deleteTicket(ticket.ticketId).unwrap();
+        await deleteTicket(ticket.complaintId).unwrap();
         toast.success("Deleted successfully", {
           id: toastId,
           icon: <CheckCircle2 className="text-green-600" />,
@@ -86,7 +82,7 @@ export const TicketCard = ({ ticket, onClick }: TicketCardProps) => {
         <div className="bg-[#14213d] text-white px-5 py-3 flex justify-between items-center">
           <div className="flex items-center gap-2">
             <MessageSquare size={20} className="text-[#fca311]" />
-            <span className="font-semibold text-sm">#{ticket.ticketId}</span>
+            <span className="font-semibold text-sm">#{ticket.complaintId}</span>
           </div>
           <span className="text-xs opacity-70">{formattedDate}</span>
         </div>

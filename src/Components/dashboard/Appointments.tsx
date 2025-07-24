@@ -60,10 +60,9 @@ export const Appointments = () => {
       const timeB = getAppointmentTime(b);
 
       if (activeTab === 'upcoming' || activeTab === 'today') {
-        return timeA - timeB; // Closest first
+        return timeA - timeB; 
       }
-      return timeB - timeA; // Most recent first for past
-    });
+      return timeB - timeA;     });
 
   const [deleteAppointment] = appointmentApi.useDeleteAppointmentProfileMutation();
 

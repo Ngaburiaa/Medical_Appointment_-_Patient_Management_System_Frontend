@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
 export interface Doctor {
   doctorId: number;
   specialization: string;
@@ -34,10 +33,19 @@ export interface Doctor {
 
 export const doctorApi = createApi({
   reducerPath: 'doctorApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/api/'
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://medical-appointment-patient-management.onrender.com/api/'
    }),
   tagTypes: ['doctors', 'doctor'],
   endpoints: (builder) => ({
+
+    createDoctor: builder.mutation({
+      query: (newDoctor) => ({
+        url: 'doctors',
+        method: 'POST',
+        body: newDoctor,
+      }),
+      invalidatesTags: ['doctors'],
+    }),
         getAllDoctors: builder.query({
         query: () => ({
             url: '/doctors',

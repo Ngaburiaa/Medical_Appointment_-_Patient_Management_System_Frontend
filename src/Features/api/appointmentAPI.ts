@@ -3,7 +3,7 @@ import type { RootState } from '../../App/store';
 
 export const appointmentApi = createApi({
   reducerPath: 'appointmentApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/api/',
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://medical-appointment-patient-management.onrender.com/api/',
         prepareHeaders: (headers, { getState }) => {
         const token = (getState() as RootState).auth.token;
         if (token) {

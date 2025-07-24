@@ -23,7 +23,7 @@ type LoginResponse = {
 
 export const userApi = createApi({
   reducerPath: 'userApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/api/',
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://medical-appointment-patient-management.onrender.com/api/',
             prepareHeaders: (headers, { getState }) => {
         const token = (getState() as RootState).auth.token;
         if (token) {
@@ -50,6 +50,15 @@ export const userApi = createApi({
         body: userRegisterPayload,
       }),
     }),
+createUser: builder.mutation({
+      query: (newUser) => ({
+        url: 'users',
+        method: 'POST',
+        body: newUser,
+      }),
+      invalidatesTags: ['users'],
+    }),
+
     getUserById: builder.query({
       query: (user_id: number) => `users/${user_id}`,
       providesTags: ["user",]
@@ -82,7 +91,7 @@ export const userApi = createApi({
   }),
 
  
-    deleteUserProfile: builder.mutation({
+    deleteUserById: builder.mutation({
       query: (user_id) => ({
         url: `users/${user_id}`,
         method: 'DELETE',

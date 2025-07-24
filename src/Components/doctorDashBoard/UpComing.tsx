@@ -12,7 +12,7 @@ export const UpcomingAppointments = () => {
   const [activeTab, setActiveTab] = useState<"today" | "upcoming" | "past">("upcoming");
 
   const { user } = useSelector((state: RootState) => state.auth);
-  const { data: userDetails, isLoading, refetch } = userApi.useGetUserByIdQuery(user?.userId!);
+  const { data: userDetails, refetch } = userApi.useGetUserByIdQuery(user?.userId!);
   const [updateAppointment] = appointmentApi.useUpdateAppointmentProfileMutation();
 
   const appointments = userDetails?.doctorProfile?.appointments ?? [];
@@ -72,7 +72,7 @@ export const UpcomingAppointments = () => {
     }
   };
 
-  const handleReschedule = (appointment: any) => {
+  const handleReschedule = (_appointment: any) => {
     toast.info("Rescheduling modal not implemented yet.");
     // TODO: Open BookingModal with appointment pre-filled
   };

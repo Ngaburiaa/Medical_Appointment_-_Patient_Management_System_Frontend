@@ -61,22 +61,24 @@ export const useBooking = (navigate: ReturnType<typeof useNavigate>) => {
     
     if (!user) {
       Swal.fire("Not Logged In", "Please log in to book an appointment.", "warning");
-       localStorage.setItem("pendingBookingDoctorId", doctor.doctorId.toString());
-    navigate("/login")
-     return;
+      localStorage.setItem("pendingBookingDoctorId", doctor.doctorId.toString());
+      navigate("/login");
+      return;
     }
 
-    const hasExistingAppointment = doctor.appointments.some(
+    // Check for upcoming confirmed appointments only
+    const hasUpcomingAppointment = doctor.appointments.some(
       (appt) =>
-        appt.appointmentStatus.toLowerCase() === "confirmed"  &&
-        appt.userId === user?.userId 
+        appt.appointmentStatus.toLowerCase() === "confirmed" &&
+        appt.userId === user?.userId &&
+        new Date(appt.appointmentDate) >= new Date() // Only consider future dates
     );
 
-    if (hasExistingAppointment) {
+    if (hasUpcomingAppointment) {
       Swal.fire({
         icon: "info",
         title: "Already Booked",
-        text: `You already have an active appointment with Dr. ${doctor.user.lastName}.`,
+        text: `You already have an upcoming appointment with Dr. ${doctor.user.lastName}.`,
         confirmButtonColor: "#1AB2E5",
       });
       return;

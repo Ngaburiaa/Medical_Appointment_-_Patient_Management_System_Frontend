@@ -3,8 +3,8 @@ import type { RootState } from '../../App/store';
 
 export const prescriptionApi = createApi({
   reducerPath: 'prescriptionApi',
-  baseQuery: fetchBaseQuery({
-    prepareHeaders: (headers, { getState }) => {
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://medical-appointment-patient-management.onrender.com/api/',
+      prepareHeaders: (headers, { getState }) => {
         const token = (getState() as RootState).auth.token;
         if (token) {
           headers.set("Authorization", `Bearer ${token}`);
@@ -26,8 +26,8 @@ export const prescriptionApi = createApi({
     }),
 
     // ✅ Get all prescriptions
-    getPrescriptions: builder.query({
-      query: () => 'prescriptions',
+      getPrescriptions: builder.query({
+      query: () => '/prescriptions',
       providesTags: ['Prescriptions'],
     }),
 

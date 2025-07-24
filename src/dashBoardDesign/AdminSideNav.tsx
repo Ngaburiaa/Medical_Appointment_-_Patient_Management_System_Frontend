@@ -1,11 +1,11 @@
 import { useState } from "react";
 import {
   Home,
-  Settings,
   Users2,
   Stethoscope,
   CalendarCheck2,
   MessageSquareText,
+  FileText,
   SquareUserRound,
   LayoutDashboard,
   Menu,
@@ -28,7 +28,7 @@ export const AdminSideNav = () => {
     { path: "/admin/appointments", icon: <CalendarCheck2 size={20} />, label: "Appointments", color: "#2196F3" },
     { path: "/admin/support", icon: <MessageSquareText size={20} />, label: "Support", color: "#FF9800" },
      { path: "/admin/payments", icon: <CreditCard size={20} />, label: "Payments", color: "#FF9800" }, 
-    { path: "/admin/prescriptions", icon: <Settings size={20} />, label: "Settings", color: "#8BC34A" },
+    { path: "/admin/prescriptions", icon: <FileText  size={20} />, label: "Prescriptions", color: "#8BC34A" },
     { path: "/admin/profile", icon: <SquareUserRound size={20} />, label: "Profile", color: "#03A9F4" },
 
     { path: "/", icon: <Home size={20} />, label: "Home", color: "#1AB2E5" },

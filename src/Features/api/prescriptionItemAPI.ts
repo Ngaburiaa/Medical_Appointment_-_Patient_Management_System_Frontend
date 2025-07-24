@@ -3,7 +3,7 @@ import type { RootState } from '../../App/store';
 
 export const prescriptionItemApi = createApi({
   reducerPath: 'prescriptionItemApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/api/',
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://medical-appointment-patient-management.onrender.com/api/',
         prepareHeaders: (headers, { getState }) => {
         const token = (getState() as RootState).auth.token;
         if (token) {
@@ -31,19 +31,19 @@ export const prescriptionItemApi = createApi({
 
 
        getPrescriptionItemById: builder.query({
-      query: (prescriptionItem_id: number) => `prescriptionItems/${prescriptionItem_id}`,
+      query: (prescriptionItem_id: number) => `prescription-items/${prescriptionItem_id}`,
       providesTags: ["prescriptionItem",]
     }),
 
    
     getPrescriptionItemsProfiles: builder.query({
-      query: () => 'prescriptionItems',
+      query: () => 'prescription-items',
       providesTags: ["prescriptionItems"]
     }),
 
 
     getPrescriptionItemProfile: builder.query({
-      query: (prescriptionItemId: number) => `prescriptionItems/${prescriptionItemId}`,  
+      query: (prescriptionItemId: number) => `prescription-items/${prescriptionItemId}`,  
       providesTags: ["prescriptionItem"]    
     }),
     

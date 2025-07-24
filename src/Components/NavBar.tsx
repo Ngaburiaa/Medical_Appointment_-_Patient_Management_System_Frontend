@@ -64,7 +64,7 @@ export const NavBar = () => {
               to="/doctors"
               className="flex items-center gap-1 hover:text-[#1AB2E5] transition-all duration-300"
             >
-              <FaUserMd className="text-[#9C27B0]" /> {/* Purple */}
+              <FaUserMd className="text-[#9C27B0]" /> 
               Doctors
             </Link>
             <Link
@@ -119,7 +119,7 @@ export const NavBar = () => {
                       ? "/admin/overview"
                       : userType === "doctor"
                       ? "/doctorDashBoard/overview"
-                      : "/dashboard"
+                      : "/dashboard/main"
                   }
                   onClick={closeMenu}
                   className="block hover:text-[#1AB2E5] transition-all duration-300"
@@ -196,7 +196,7 @@ export const NavBar = () => {
                       ? "/admin/overview"
                       : userType === "doctor"
                       ? "/doctorDashBoard/overview"
-                      : "/dashboard"
+                      : "/dashboard/main"
                   }
                   onClick={closeMenu}
                   className="block hover:text-[#1AB2E5] transition-all duration-300"

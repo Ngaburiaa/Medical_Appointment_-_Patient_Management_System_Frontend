@@ -34,6 +34,9 @@ import { AdminProfile } from './Components/AdminDashBoard/AdminProfile';
 import { AdminDoctors } from './Components/AdminDashBoard/AdminDoctors';
 import { AdminPayments } from './Components/AdminDashBoard/AdminPayments';
 import { AdminSupport } from './Components/AdminDashBoard/AdminSupport';
+import { DoctorPage } from './pages/Doctors';
+import ProtectedRoute from './Components/ProtectedRoute';
+
 
 
 function App() {
@@ -59,8 +62,17 @@ function App() {
       errorElement: <Error />,
     },
      {
+      path: "/doctors",
+      element: <DoctorPage/>,
+      errorElement: <Error />,
+    },
+     {
       path: "/dashboard",
-      element: <Dashboard />,
+      element: (
+        <ProtectedRoute>
+          <Dashboard />
+        </ProtectedRoute>
+      ),
       errorElement: <Error />,
       children: [
          {
@@ -100,7 +112,11 @@ function App() {
 
        {
       path: "/doctorDashBoard",
-      element: <DoctorDashBoard />,
+      element: (
+        <ProtectedRoute>
+          <DoctorDashBoard />
+        </ProtectedRoute>
+      ),
       errorElement: <Error />,
       children: [
          {
@@ -150,7 +166,11 @@ function App() {
 
       {
       path: "/admin",
-      element: <AdminDashBoard/>,
+       element: (
+        <ProtectedRoute>
+          <AdminDashBoard />
+        </ProtectedRoute>
+      ),
       errorElement: <Error />,
       children: [
          {
