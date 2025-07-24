@@ -39,7 +39,7 @@ const onSubmit = async (data: UserRegisterFormValues) => {
       replace: true,
     });
   } catch (err: any) {
-    toast.error("Failed to Register: " + (err.data?.message || err.message || err), {
+    toast.error("Failed to Register: " + (err.data?.error || err.error || err), {
       id: loadingToastId,
     });
   }

@@ -12,6 +12,7 @@ import { setCredentials as setDoctorCredentials } from "../Features/auth/doctorS
 import { NavBar } from "../Components/NavBar";
 
 type UserLoginFormValues = {
+  error: any;
   email: string;
   password: string;
 };
@@ -56,8 +57,9 @@ export const Login = () => {
         toast.error("Unknown user type", { id: loadingToastId });
       }
     } catch (err: any) {
+      console.log(err)
       toast.error(
-        "Login failed: " + (err?.data?.message || err.message || "Unknown error"),
+        "Login failed: " + (err?.data?.error|| "Unknown error"),
         { id: loadingToastId }
       );
     }
