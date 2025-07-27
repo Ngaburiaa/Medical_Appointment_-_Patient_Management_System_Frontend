@@ -27,7 +27,7 @@ type Doctor = {
 
 export const useBooking = (navigate: ReturnType<typeof useNavigate>) => {
   const { user } = useSelector((state: RootState) => state.auth);
-  const [createAppointment] = appointmentApi.useCreateAppoinmentMutation();
+  const [createAppointment] = appointmentApi.useCreateAppointmentMutation();
 
   const timeSlots = [
     "8:00am - 10:00am",
