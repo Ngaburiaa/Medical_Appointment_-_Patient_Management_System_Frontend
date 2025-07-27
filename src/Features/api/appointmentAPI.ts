@@ -18,17 +18,44 @@ export const appointmentApi = createApi({
 
   tagTypes: ['appointments', 'appointment'],
   endpoints: (builder) => ({
-    createAppoinment: builder.mutation({
-      query: (appointmentLoginCredentials ) => ({
-        url: 'appointments',
-        method: 'POST',
-        body: appointmentLoginCredentials,
-      }),
-      invalidatesTags:['appointments']
-    }),
 
-     
 
+ createAppointment: builder.mutation<{
+  appointmentId: number;
+  totalAmount: string;
+}, {
+  userId: number;
+  doctorId: number;
+  appointmentDate: string;
+  timeSlot: string;
+  totalAmount: string;
+}>({
+  query: (appointmentData) => ({
+    url: 'appointments',
+    method: 'POST',
+    body: appointmentData,
+  }),
+// Update the transformResponse to handle both possible structures
+transformResponse: (newAppointment: any) => {
+  // Handle direct fields (your current backend newAppointment)
+  if (newAppointment.appointmentId) {
+    return {
+      appointmentId: newAppointment.appointmentId,
+      totalAmount: newAppointment.totalAmount
+    };
+  }
+  // Handle nested structure (if backend changes)
+  else if (newAppointment.appointment) {
+    return {
+      appointmentId: newAppointment.appointment.appointmentId,
+      totalAmount: newAppointment.appointment.totalAmount
+    };
+  }
+  // Fallback
+  return newAppointment;
+},
+  invalidatesTags: ['appointments'],
+}),
 
        getAppointmentById: builder.query({
       query: (appointment_id: number) => `appointments/${appointment_id}`,
@@ -68,5 +95,4 @@ export const appointmentApi = createApi({
   }),
 }),
 });
-
 

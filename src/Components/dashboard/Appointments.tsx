@@ -8,15 +8,18 @@ import { BookingModal } from '../../hooks/BookingModal';
 import { userApi } from '../../Features/api/userAPI';
 import { appointmentApi } from '../../Features/api/appointmentAPI';
 import type { RootState } from '../../App/store';
+import { PaymentModal } from '../../hooks/PaymentModal';
 
 export const Appointments = () => {
   const [activeTab, setActiveTab] = useState<'upcoming' | 'past' | 'today'>('upcoming');
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [, setSelectedDoctor] = useState<any | null>(null);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [selectedAppointment, setSelectedAppointment] = useState<any | null>(null);
 
   const { user, userType } = useSelector((state: RootState) => state.auth);
 
-  const {   data: userDetails,   isLoading,   refetch,    isError,  } = userApi.useGetUserByIdQuery(user?.userId!);
+  const { data: userDetails, isLoading, refetch, isError } = userApi.useGetUserByIdQuery(user?.userId!);
 
   const appointments = userDetails?.appointments ?? [];
 
@@ -48,10 +51,10 @@ export const Appointments = () => {
         const timePart = appt.timeSlot.split(' - ')[0];
         const [time, modifier] = timePart.split(/(am|pm)/i);
         let [hours, minutes] = time.split(':').map(Number);
-        
+
         if (modifier?.toLowerCase() === 'pm' && hours < 12) hours += 12;
         if (modifier?.toLowerCase() === 'am' && hours === 12) hours = 0;
-        
+
         date.setHours(hours, minutes || 0, 0, 0);
         return date.getTime();
       };
@@ -60,23 +63,22 @@ export const Appointments = () => {
       const timeB = getAppointmentTime(b);
 
       if (activeTab === 'upcoming' || activeTab === 'today') {
-        return timeA - timeB; 
+        return timeA - timeB;
       }
-      return timeB - timeA;     });
+      return timeB - timeA;
+    });
 
   const [deleteAppointment] = appointmentApi.useDeleteAppointmentProfileMutation();
 
-
- const handleCancel = async (appointmentId: number) => {
-  try {
-    await deleteAppointment(appointmentId).unwrap();
-    toast.success("Appointment deleted successfully");
-    refetch();
-  } catch (error) {
-    toast.error("Failed to delete appointment");
-  }
-};
-
+  const handleCancel = async (appointmentId: number) => {
+    try {
+      await deleteAppointment(appointmentId).unwrap();
+      toast.success("Appointment deleted successfully");
+      refetch();
+    } catch (error) {
+      toast.error("Failed to delete appointment");
+    }
+  };
 
   const handleReschedule = (appointment: any) => {
     setSelectedDoctor({
@@ -86,9 +88,21 @@ export const Appointments = () => {
     setShowBookingModal(true);
   };
 
-  const handleBookingSuccess = () => {
+  const handleBookingSuccess = (newAppointment?: any) => {
     setShowBookingModal(false);
     refetch();
+    console.log(newAppointment)
+
+    if (newAppointment) {
+      setSelectedAppointment(newAppointment);
+      setShowPaymentModal(true);
+    }
+  };
+
+
+  const handlePayNow = async (appointment: any) => {
+    setSelectedAppointment(appointment);
+    setShowPaymentModal(true);
   };
 
   return (
@@ -99,10 +113,10 @@ export const Appointments = () => {
           <div className="text-center md:text-left">
             <h1 className="text-3xl font-bold text-gray-900 mb-2">My Appointments</h1>
             <p className="text-lg text-gray-600">
-              {activeTab === 'upcoming' 
-                ? 'Upcoming consultations' 
-                : activeTab === 'past' 
-                ? 'Past appointment history' 
+              {activeTab === 'upcoming'
+                ? 'Upcoming consultations'
+                : activeTab === 'past'
+                ? 'Past appointment history'
                 : "Today's appointments"}
             </p>
           </div>
@@ -211,6 +225,7 @@ export const Appointments = () => {
                 variant={activeTab}
                 onCancel={handleCancel}
                 onReschedule={handleReschedule}
+                onPayNow={handlePayNow}
               />
             ))}
           </div>
@@ -218,7 +233,25 @@ export const Appointments = () => {
 
         {/* Booking Modal */}
         {showBookingModal && (
-          <BookingModal onClose={() => setShowBookingModal(false)} onSuccess={handleBookingSuccess} />
+          <BookingModal
+            onClose={() => setShowBookingModal(false)}
+            onSuccess={handleBookingSuccess} 
+          />
+        )}
+
+
+        {/* Payment Modal */}
+        {showPaymentModal && selectedAppointment && (
+          console.log('PaymentModal should show:', showPaymentModal, 'with data:', selectedAppointment),
+          <PaymentModal
+            onClose={() => setShowPaymentModal(false)}
+            onSuccess={() => {
+              refetch();
+              setShowPaymentModal(false);
+            }}
+            appointmentId={selectedAppointment.appointmentId}
+            amount={selectedAppointment.totalAmount}
+          />
         )}
       </div>
     </div>

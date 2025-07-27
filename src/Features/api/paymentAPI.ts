@@ -17,56 +17,60 @@ export const paymentApi = createApi({
 
 
   tagTypes: ['payments', 'payment'],
-  endpoints: (builder) => ({
-    createPayment: builder.mutation({
-      query: (paymentCredentials ) => ({
-        url: 'payments',
-        method: 'POST',
-        body: paymentCredentials,
-      }),
-      invalidatesTags:['payments']
+ endpoints: (builder) => ({
+  createPayment: builder.mutation({
+    query: (paymentCredentials ) => ({
+      url: 'payments',
+      method: 'POST',
+      body: paymentCredentials,
     }),
-
-     
-
-
-       getPaymentById: builder.query({
-      query: (payment_id: number) => `payments/${payment_id}`,
-      providesTags: ["payment",]
-    }),
-
-   
-    getPaymentsProfiles: builder.query({
-      query: () => 'payments',
-      providesTags: ["payments"]
-    }),
-
-
-    getPaymentProfile: builder.query({
-      query: (paymentId: number) => `payments/${paymentId}`,  
-      providesTags: ["payment"]    
-    }),
-    
-    updatePaymentProfile: builder.mutation({
-      query: ({ payment_id, ...patch }) => ({
-        url: `payments/${payment_id}`,
-        method: 'PUT',
-        body: patch,
-      }),
-      invalidatesTags: ["payment", "payments"]
-    }),
-
-    
-  
-
-    deletePaymentProfile: builder.mutation({
-      query: (payment_id) => ({
-        url: `payments/${payment_id}`,
-        method: 'DELETE',
-      }),
-      
+    invalidatesTags:['payments']
   }),
+
+  getPaymentById: builder.query({
+    query: (payment_id: number) => `payments/${payment_id}`,
+    providesTags: ["payment"]
+  }),
+
+  getPaymentsProfiles: builder.query({
+    query: () => 'payments',
+    providesTags: ["payments"]
+  }),
+
+  getPaymentProfile: builder.query({
+    query: (paymentId: number) => `payments/${paymentId}`,  
+    providesTags: ["payment"]    
+  }),
+  
+  updatePaymentProfile: builder.mutation({
+    query: ({ payment_id, ...patch }) => ({
+      url: `payments/${payment_id}`,
+      method: 'PUT',
+      body: patch,
+    }),
+    invalidatesTags: ["payment", "payments"]
+  }),
+
+  deletePaymentProfile: builder.mutation({
+    query: (payment_id) => ({
+      url: `payments/${payment_id}`,
+      method: 'DELETE',
+    }),
+  }),
+
+  // NEW: M-Pesa STK push initiation
+// In paymentAPI.ts
+initiateSTKPush: builder.mutation<{ message: string }, { 
+  appointmentId: number;
+  phoneNumber: string;
+  amount: string;
+}>({
+  query: (paymentDetails) => ({
+    url: 'mpesa/initiate-payment', 
+    method: 'POST',
+    body: paymentDetails,
+  }),
+  invalidatesTags: ['payments']
 }),
-});
-
-
+}),
+})

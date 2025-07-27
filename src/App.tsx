@@ -186,7 +186,7 @@ function App() {
           element: <AdminAppointments/>,
         },
         {
-          path: "prescrptions",
+          path: "prescriptions",
           element: <AdminPrescriptions/>,
         },
         {

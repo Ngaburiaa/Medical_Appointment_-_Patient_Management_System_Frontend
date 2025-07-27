@@ -27,13 +27,23 @@ interface Appointment {
     };
   };
   user?: {
+    userId: number;
     firstName: string;
     lastName: string;
     contactPhone: string;
     address: string;
   };
-  payments?: { paymentStatus: 'Pending' | 'Confirmed' | 'Cancelled'; amount: string; }[];
-  prescription?: { notes: string; }[];
+  payments?: {
+    paymentId: number;
+    paymentStatus: 'Pending' | 'Confirmed' | 'Cancelled';
+    amount: string;
+    appointmentId: number;
+  }[];
+  prescription?: {
+    prescriptionId: number;
+    notes: string;
+    appointmentId: number;
+  }[];
 }
 
 interface Props {
@@ -42,9 +52,10 @@ interface Props {
   onAppointmentChange?: () => void;
   onCancel?: (appointmentId: number) => void;
   onReschedule?: (appointment: Appointment) => void;
+  onPayNow?: (appointment: Appointment) => void;
 }
 
-export const AppointmentCard = ({ appointment, variant, onAppointmentChange, onCancel }: Props) => {
+export const AppointmentCard = ({ appointment, variant, onAppointmentChange, onCancel, onPayNow  }: Props) => {
   const [showDetails, setShowDetails] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [showRescheduleModal, setShowRescheduleModal] = useState(false);
@@ -157,28 +168,36 @@ export const AppointmentCard = ({ appointment, variant, onAppointmentChange, onC
             </div>
             <p className="text-gray-600 text-sm pl-6">{doctor?.bio}</p>
           </div>
-
-          {(variant === 'upcoming' || variant === 'today') && statusToUse !== 'Cancelled' && (
-            <div className="flex flex-wrap gap-3 pt-4 border-t border-gray-100 px-5 pb-5">
-              <button 
-                onClick={handleCancel} 
-                disabled={isProcessing} 
-                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg disabled:bg-gray-300"
-              >
-                {isProcessing ? 'Processing...' : 'Cancel'}
-              </button>
-              <button 
-                onClick={() => setShowRescheduleModal(true)} 
-                disabled={isProcessing} 
-                className={`px-4 py-2 text-white rounded-lg disabled:bg-gray-300 ${statusToUse === 'Today' ? 'bg-[#1AB2E5] hover:bg-[#1598c4]' : 'bg-blue-600 hover:bg-blue-700'}`}
-              >
-                Reschedule
-              </button>
-              <button className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg">
-                View Full Details
-              </button>
-            </div>
-          )}
+{(variant === 'upcoming' || variant === 'today') && statusToUse !== 'Cancelled' && (
+  <div className="flex flex-wrap gap-3 pt-4 border-t border-gray-100 px-5 pb-5">
+    <button 
+      onClick={handleCancel} 
+      disabled={isProcessing} 
+      className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg disabled:bg-gray-300"
+    >
+      {isProcessing ? 'Processing...' : 'Cancel'}
+    </button>
+    <button 
+      onClick={() => setShowRescheduleModal(true)} 
+      disabled={isProcessing} 
+      className={`px-4 py-2 text-white rounded-lg disabled:bg-gray-300 ${statusToUse === 'Today' ? 'bg-[#1AB2E5] hover:bg-[#1598c4]' : 'bg-blue-600 hover:bg-blue-700'}`}
+    >
+      Reschedule
+    </button>
+    {paymentStatus.text === 'Pending' && (
+      <button 
+        onClick={() => onPayNow?.(appointment)} 
+        disabled={isProcessing} 
+        className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg disabled:bg-gray-300"
+      >
+        Pay Now
+      </button>
+    )}
+    <button className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg">
+      View Full Details
+    </button>
+  </div>
+)}
         </div>
       </div>
 
@@ -205,6 +224,7 @@ export const AppointmentCard = ({ appointment, variant, onAppointmentChange, onC
           mode="reschedule"
         />
       )}
+
     </>
   );
 };

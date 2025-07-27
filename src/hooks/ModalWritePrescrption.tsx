@@ -45,51 +45,7 @@ export const ModalWritePrescription = ({
   const [createPrescription] = prescriptionApi.useCreatePrescriptionMutation();
   const [createPrescriptionItem] = prescriptionItemApi.useCreatePrescriptionItemMutation();
 
-  // const onSubmit = async (data: PrescriptionFormData) => {
-  //    console.log("DEBUG values:", {
-  //   patientUserId: patient?.userId,
-  //   doctorId,
-  //   appointmentId,
-  // });
-  //   if (!patient?.userId || !doctorId || !appointmentId) {
-  //   toast.error("Missing required information");
-  //   return;
-  // }
-  //   try {
-  //     const payload = {
-  //       patientId: patient.userId,
-  //       doctorId,
-  //       appointmentId,
-  //       diagnosis: data.diagnosis,
-  //       notes: data.notes,
-  //     };
-
-  //     console.log("Submitting prescription:", payload);
-
-  //     const prescriptionRes = await createPrescription(payload).unwrap();
-
-  //     const prescriptionId =prescriptionRes?.prescriptionId || prescriptionRes?.id;
-
-  //     await createPrescriptionItem({
-  //       prescriptionId,
-  //       drugName: data.drugName,
-  //       dosage: data.dosage,
-  //       route: data.route,
-  //       frequency: data.frequency,
-  //       duration: data.duration,
-  //       instructions: data.instructions || "",
-  //       substitutionAllowed: data.substitutionAllowed ? 1 : 0,
-  //     }).unwrap();
-
-  //     toast.success("Prescription saved successfully");
-  //     reset();
-  //     onClose();
-  //   } catch (error) {
-  //     console.error("Error:", error);
-  //     toast.error("Failed to save prescription");
-  //   }
-  // };
-
+ 
   const onSubmit = async (data: PrescriptionFormData) => {
   if (!patient?.userId || !doctorId || !appointmentId) {
     toast.error("Missing required information");
