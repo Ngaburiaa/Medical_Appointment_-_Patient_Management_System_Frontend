@@ -35,16 +35,16 @@ export const appointmentApi = createApi({
     method: 'POST',
     body: appointmentData,
   }),
-// Update the transformResponse to handle both possible structures
+
 transformResponse: (newAppointment: any) => {
-  // Handle direct fields (your current backend newAppointment)
+
   if (newAppointment.appointmentId) {
     return {
       appointmentId: newAppointment.appointmentId,
       totalAmount: newAppointment.totalAmount
     };
   }
-  // Handle nested structure (if backend changes)
+
   else if (newAppointment.appointment) {
     return {
       appointmentId: newAppointment.appointment.appointmentId,

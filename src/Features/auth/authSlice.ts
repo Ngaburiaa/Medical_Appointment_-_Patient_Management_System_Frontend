@@ -50,6 +50,8 @@ const authSlice = createSlice({
         userType,
         profileURL,
       } = action.payload;
+      console.log("Payload:", action.payload);
+
 
       state.user = {
         email,
