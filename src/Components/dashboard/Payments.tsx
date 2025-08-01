@@ -49,7 +49,7 @@ type Payment = {
   };
 };
 
-// Utility function to safely parse decimal strings
+
 const parseDecimal = (value: string): number => {
   if (!value) return 0;
   const cleaned = value.replace(/[^0-9.]/g, '');
@@ -75,7 +75,6 @@ export const Payments = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
 
-  // Extract payments based on user type with proper typing
   const payments: Payment[] =
     userDetails?.userType === "doctor"
       ? userDetails?.doctorProfile?.appointments?.flatMap((appointment: any) =>
@@ -99,7 +98,7 @@ export const Payments = () => {
           })) || []
         ) || [];
 
-  // Filter payments with decimal-safe calculations
+
   const filteredPayments = payments.filter((payment) => {
     const matchesSearch = payment.transactionId?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = statusFilter === "All" || payment.paymentStatus === statusFilter;

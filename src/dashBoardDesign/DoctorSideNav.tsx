@@ -28,7 +28,7 @@ export const DoctorSideNav = () => {
     { path: "/doctorDashBoard/prescriptions", icon: <FileText size={20} />, label: "Prescriptions", color: "#9C27B0" },
     { path: "/doctorDashBoard/schedule", icon: <CalendarCheck2 size={20} />, label: "My Schedule", color: "#FF9800" },
     { path: "/doctorDashBoard/notifications", icon: <Bell size={20} />, label: "Notifications", color: "#673AB7" },
-    { path: "/doctorDashBoard/notes", icon: <NotebookText size={20} />, label: "Visit Notes", color: "#00BCD4" },
+    { path: "/doctorDashBoard/payments", icon: <NotebookText size={20} />, label: "Payments", color: "#00BCD4" },
     { path: "/doctorDashBoard/analytics", icon: <BarChart2 size={20} />, label: "Analytics", color: "#795548" },
     { path: "/doctorDashBoard/profile", icon: <SquareUserRound size={20} />, label: "Profile", color: "#03A9F4" },
     { path: "/doctorDashBoard/settings", icon: <Settings size={20} />, label: "Settings", color: "#8BC34A" },

@@ -21,7 +21,7 @@ import { Overview } from './Components/doctorDashBoard/Overview';
 import { Patients } from './Components/doctorDashBoard/Patients';
 import { DoctorPrescription } from './Components/doctorDashBoard/DoctorPrescription';
 import { Notifications } from './Components/doctorDashBoard/Notifications';
-import { Notes } from './Components/doctorDashBoard/Notes';
+import { DoctorPayment } from './Components/doctorDashBoard/DoctorPayment';
 import { Analytics } from './Components/doctorDashBoard/Analytics';
 import { DoctorProfile } from './Components/doctorDashBoard/Profile';
 import { DoctorSettings } from './Components/doctorDashBoard/Settings';
@@ -144,8 +144,8 @@ function App() {
           element: <Notifications/>,
         },
         {
-          path: "notes",
-          element: <Notes/>,
+          path: "payments",
+          element: <DoctorPayment/>,
         },
           {
           path: "analytics",
